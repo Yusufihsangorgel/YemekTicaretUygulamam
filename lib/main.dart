@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/models/food_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,69 +11,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Food(),
+      home: Foods(),
     );
   }
 }
 
-class Food extends StatelessWidget {
-  var foodList = [
-    ExpansionTile(
-      title: const Text('İskender'),
-      subtitle: Text(
-        'Turkish',
-        style: TextStyle(color: Colors.black.withOpacity(0.6)),
-      ),
-      trailing: Icon(Icons.arrow_drop_down_circle, color: Colors.green),
-      children: <Widget>[
-        ListTile(title: Text('Porsiyon 25₺ , 1.5 porsiyon 35₺ ')),
-      ],
-    ),
-    ExpansionTile(
-      title: const Text('Sushi'),
-      subtitle: Text(
-        'Korean',
-        style: TextStyle(color: Colors.black.withOpacity(0.6)),
-      ),
-      trailing: Icon(Icons.arrow_drop_down_circle, color: Colors.green),
-      children: <Widget>[
-        ListTile(title: Text('Porsiyon 20₺ , 1.5 porsiyon 30₺')),
-      ],
-    ),
-    ExpansionTile(
-      title: const Text('Pizza'),
-      subtitle: Text(
-        'Italy',
-        style: TextStyle(color: Colors.black.withOpacity(0.6)),
-      ),
-      trailing: Icon(Icons.arrow_drop_down_circle, color: Colors.green),
-      children: <Widget>[
-        ListTile(title: Text('Yarım 25₺ , Tam 45₺')),
-      ],
-    ),
-    ExpansionTile(
-      title: const Text('Paella'),
-      subtitle: Text(
-        'Espanol',
-        style: TextStyle(color: Colors.black.withOpacity(0.6)),
-      ),
-      trailing: Icon(Icons.arrow_drop_down_circle, color: Colors.green),
-      children: <Widget>[
-        ListTile(title: Text('Porsiyon 30₺ , 1.5 porsiyon 40₺')),
-      ],
-    ),
-    ExpansionTile(
-      title: const Text('Burrito'),
-      subtitle: Text(
-        'Mexico',
-        style: TextStyle(color: Colors.black.withOpacity(0.6)),
-      ),
-      trailing: Icon(Icons.arrow_drop_down_circle, color: Colors.green),
-      children: <Widget>[
-        ListTile(title: Text('Yarım 15₺ , Tam 25₺')),
-      ],
-    ),
-  ];
+class Foods extends StatefulWidget {
+  @override
+  State<Foods> createState() => _FoodState();
+}
+
+class _FoodState extends State<Foods> {
+  late List<Food> _foodList;
+
+  void initState() {
+    super.initState();
+    _foodList = [
+      Food("İskender", "Turkish", "porsiyon 25₺"),
+      Food("Sushi", "Korean", "Porsiyon 20₺"),
+      Food("Pizza", "Italy", "Tam 45₺"),
+      Food("Paella", "Espanol", "Porsiyon 30₺"),
+      Food("Burrito", "Mexico", "Tam 25₺"),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +48,33 @@ class Food extends StatelessWidget {
       body: Card(
           child: ListView.builder(
               padding: EdgeInsets.only(top: 5),
-              itemCount: foodList.length,
+              itemCount: _foodList.length,
               itemBuilder: (context, index) {
-                return foodList[index];
+                return Dismissible(
+                  key: Key(_foodList[index].country),
+                  child: ExpansionTile(
+                    title: Text(_foodList[index].foodName),
+                    subtitle: Text(
+                      _foodList[index].country,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                    trailing:
+                        Icon(Icons.arrow_drop_down_circle, color: Colors.green),
+                    children: <Widget>[
+                      ListTile(title: Text(_foodList[index].price)),
+                    ],
+                  ),
+                );
               })),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        focusColor: Colors.greenAccent,
+        onPressed: () {
+          setState(() {
+            _foodList.add(Food("Yaprak Sarma", "Turkish", "porsiyon 50₺"));
+          });
+        },
+      ),
     );
   }
 }
