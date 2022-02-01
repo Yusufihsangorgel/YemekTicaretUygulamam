@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food/foodadd.dart';
 import 'package:food/models/food_model.dart';
+import 'package:food/sepet.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,11 +29,11 @@ class _FoodState extends State<Foods> {
   void initState() {
     super.initState();
     _foodList = [
-      Food("İskender", "Turkish", "porsiyon 25₺"),
+      Food("İskender", "Turkish", "Porsiyon 25₺,Duble 45₺"),
       Food("Sushi", "Korean", "Porsiyon 20₺"),
-      Food("Pizza", "Italy", "Tam 45₺"),
+      Food("Pizza", "Italy", "Büyük Boy 45₺,Orta Boy 25₺"),
       Food("Paella", "Espanol", "Porsiyon 30₺"),
-      Food("Burrito", "Mexico", "Tam 25₺"),
+      Food("Burrito", "Mexico", "Porsiyon 25₺"),
     ];
   }
 
@@ -42,8 +44,24 @@ class _FoodState extends State<Foods> {
         backgroundColor: Colors.green,
         title: Text(
           "Foods",
-          style: Theme.of(context).textTheme.headline5,
+          style: TextStyle(fontSize: 25),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.shopping_basket,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Sepet(),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Card(
           child: ListView.builder(
@@ -61,18 +79,58 @@ class _FoodState extends State<Foods> {
                     trailing:
                         Icon(Icons.arrow_drop_down_circle, color: Colors.green),
                     children: <Widget>[
-                      ListTile(title: Text(_foodList[index].price)),
+                      ListTile(
+                        focusColor: Colors.green,
+                        subtitle: Column(
+                          children: <Widget>[
+                            Text(
+                              _foodList[index].price,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            FlatButton(
+                                color: Colors.green,
+                                child: Text('Sepete Ekle'),
+                                onPressed: () {
+                                  final snackBar = SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: const Text(
+                                      "Sepete Eklendi!",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    action: SnackBarAction(
+                                      textColor: Colors.white,
+                                      label: 'Geri',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                })
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 );
               })),
       floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
         backgroundColor: Colors.green,
         focusColor: Colors.greenAccent,
         onPressed: () {
-          setState(() {
-            _foodList.add(Food("Yaprak Sarma", "Turkish", "porsiyon 50₺"));
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FoodAdd(),
+            ),
+          );
         },
       ),
     );
