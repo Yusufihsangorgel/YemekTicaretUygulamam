@@ -10,76 +10,72 @@ class FoodAdd extends StatefulWidget {
 }
 
 class _FoodAddState extends State<FoodAdd> {
-  late List<Food> _foodList;
-
-  void initState() {
-    super.initState();
-    _foodList = [
-      Food("İskender", "Turkish", "Porsiyon 25₺,Duble 45₺"),
-      Food("Sushi", "Korean", "Porsiyon 20₺"),
-      Food("Pizza", "Italy", "Büyük Boy 45₺,Orta Boy 25₺"),
-      Food("Paella", "Espanol", "Porsiyon 30₺"),
-      Food("Burrito", "Mexico", "Porsiyon 25₺"),
-    ];
-  }
-
+  late String newFood, newCountry, newPrice;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text(
-          "Foods Add",
-          style: TextStyle(fontSize: 25),
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("images/yemek.jpg"), fit: BoxFit.cover),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 20,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          title: Text(
+            "Foods Add",
+            style: TextStyle(fontSize: 25),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: "Yemek Giriniz",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30),
+        ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Yemek Giriniz",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
                     ),
                   ),
-                ),
-                onChanged: (String? value) {
-                  setState(() {
-                    _foodList.add(Food(value, null, null));
-                    print("eklendi");
-                  });
-                }),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: "Ülke Giriniz",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30),
+                  onChanged: (value) {
+                    setState(() {
+                      newFood = value;
+                      print("eklendi");
+                    });
+                  }),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Ülke Giriniz",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
                     ),
                   ),
-                ),
-                onChanged: (String? value) {
-                  setState(() {
-                    _foodList.add(Food(null, value, null));
-                    print("eklendi");
-                  });
-                }),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {
+                      newCountry = value;
+                      print("eklendi");
+                    });
+                  }),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: TextFormField(
                 decoration: InputDecoration(
+                  labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                   labelText: "Fiyat Giriniz",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
@@ -87,14 +83,49 @@ class _FoodAddState extends State<FoodAdd> {
                     ),
                   ),
                 ),
-                onChanged: (String? value) {
-                  setState(() {
-                    _foodList.add(Food(null, null, value));
-                    print("eklendi");
-                  });
-                }),
-          ),
-        ],
+                onChanged: (value) {
+                  setState(
+                    () {
+                      newPrice = value;
+                      print("eklendi");
+                    },
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 400, left: 230),
+              child: ButtonTheme(
+                minWidth: 100,
+                height: 50,
+                child: RaisedButton(
+                  color: Colors.green,
+                  onPressed: () {
+                    if (newFood != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Foods(
+                            food2: newFood,
+                            foodCountry2: newCountry,
+                            foodPrice2: newPrice,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    "Ekle",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
