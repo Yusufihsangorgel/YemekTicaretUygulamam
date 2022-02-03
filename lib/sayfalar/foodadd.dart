@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food/models/food_model.dart';
 import 'package:food/main.dart';
 
+import 'Foods.dart';
+
 class FoodAdd extends StatefulWidget {
   const FoodAdd({Key? key}) : super(key: key);
 
@@ -16,14 +18,14 @@ class _FoodAddState extends State<FoodAdd> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage("images/yemek.jpg"), fit: BoxFit.cover),
+            image: AssetImage("images/yemekarka.jpg"), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.green,
           title: Text(
-            "Foods Add",
+            "Yemek Ekle",
             style: TextStyle(fontSize: 25),
           ),
         ),
@@ -36,6 +38,8 @@ class _FoodAddState extends State<FoodAdd> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: TextFormField(
                   decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
                     labelText: "Yemek Giriniz",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -55,6 +59,8 @@ class _FoodAddState extends State<FoodAdd> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: TextFormField(
                   decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
                     labelText: "Ülke Giriniz",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
