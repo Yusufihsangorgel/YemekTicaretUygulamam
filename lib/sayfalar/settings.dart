@@ -19,7 +19,7 @@ class _SettingsState extends State<Settings> {
   void initState() {
     super.initState();
     _dateList = [Date("12", "12", "2022")];
-    inBasket = ["Yemek Yok"];
+    inBasket = ["Tarih Yok"];
     checkedValue = List<bool>.filled(_dateList.length, false);
   }
 
