@@ -1,12 +1,31 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food/models/new_account.dart';
 import 'package:food/sayfalar/anasayfa.dart';
+import 'dart:io' show Platform;
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   String? _username;
+
   String? _password;
+
   final _formKey = GlobalKey<FormState>();
+
+  late List<Account> _newAccountList;
+
+  late String newUser, newPassword;
+
+  void initState() {
+    super.initState();
+    _newAccountList = [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +85,90 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  MaterialButton(child: Text("Üye Ol"), onPressed: () {}),
+                  MaterialButton(
+                      child: Text("Üye Ol"),
+                      onPressed: () {
+                        if (Platform.isIOS) {
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CupertinoAlertDialog(
+                                title: Text("Üye Ol"),
+                                content: Container(
+                                  height: 400,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(50.0),
+                                    child: Card(
+                                      elevation: 0,
+                                      color: Colors.transparent,
+                                      child: Column(
+                                        children: [
+                                          TextFormField(
+                                            decoration: InputDecoration(
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.green),
+                                              ),
+                                              labelText: "Kullanıcı Adı",
+                                              labelStyle: TextStyle(
+                                                  color: Colors.green),
+                                              border: OutlineInputBorder(),
+                                            ),
+                                            onChanged: (value) {
+                                              newUser = value;
+                                            },
+                                          ),
+                                          TextFormField(
+                                            decoration: InputDecoration(
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.green),
+                                              ),
+                                              labelText: "Şifre",
+                                              labelStyle: TextStyle(
+                                                  color: Colors.green),
+                                              border: OutlineInputBorder(),
+                                            ),
+                                            onChanged: (value) {
+                                              newPassword = value;
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      debugPrint(newUser);
+                                      Navigator.pop(context);
+                                      _newAccountList
+                                          .add(Account(newUser, newPassword));
+                                      setState(() {});
+                                    },
+                                    child: Text("Kaydet"),
+                                  ),
+                                  TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("Geri Dön")),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Başlık"),
+                                content: Text("Bu bir cupertino mesajı"),
+                              );
+                            },
+                          );
+                        }
+                      }),
                   MaterialButton(
                       child: Text("Şifremi Unuttum"), onPressed: () {})
                 ],
